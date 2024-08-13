@@ -31,7 +31,7 @@ final class ViewController: UIViewController,UITextFieldDelegate {
             mytextField.textColor = UIColor.black
             mytextField.borderStyle = .roundedRect
             mytextField.textAlignment = . center
-            mytextField.placeholder = "i am here"
+            mytextField.placeholder = "write keyword like cat"
             mytextField.center = self.view.center
             mytextField.delegate = self
             mytextField.isHidden = true
@@ -46,7 +46,7 @@ final class ViewController: UIViewController,UITextFieldDelegate {
     
     @objc func hideTextField() {
         mytextField.isHidden = false
-        mytextField.becomeFirstResponder()
+        mytextField.resignFirstResponder()
         }
     @objc func showTextField() {
         mytextField.isHidden = false
@@ -83,8 +83,12 @@ final class ViewController: UIViewController,UITextFieldDelegate {
 
     @objc private func getImage() {
         
+        guard let keyword = mytextField.text?.lowercased(), !keyword.isEmpty else {
+            print("Keyword is empty")
+            return
+        }
   
-        let API = "https://loremflickr.com/320/240"
+        let API = "https://loremflickr.com/320/240\(keyword.lowercased())"
        
         guard let apiURL = URL(string: API) else {
             fatalError("Some error")
